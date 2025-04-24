@@ -1,0 +1,29 @@
+.img {
+  width: 800px;
+  height: 600px;
+  border-radius: 8px;
+  object-fit: contain;
+}
+
+.text {
+  margin-top: 10px;
+  font-size: 16px;
+  color: #f1f6f6;
+}
+
+.closeButton {
+  position: absolute;
+  top: 6px;
+  right: 5px;
+  background: none;
+  border: none;
+  font-size: 20px;
+  cursor: pointer;
+  color: #555;
+}
+
+.closeButton:hover {
+  color: rgb(7, 128, 188);
+  outline: none;
+  border: none;
+}

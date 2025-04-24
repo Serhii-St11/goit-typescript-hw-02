@@ -1,0 +1,16 @@
+.img_card {
+  cursor: pointer;
+  overflow: hidden;
+  transition: transform 0.3s ease-in-out;
+}
+
+.img {
+  object-fit: cover;
+  width: 400px;
+  height: 300px;
+  transition: transform 0.3s ease-in-out;
+}
+
+.img_card:hover img {
+  transform: scale(1.1);
+}
