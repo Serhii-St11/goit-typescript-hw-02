@@ -6,22 +6,20 @@ import ErrorMessage from "./components/errorMessage/ErrorMessage";
 import LoadMoreBtn from "./components/loadMoreBtn/LoadMoreBtn";
 import ImageModal from "./components/ImageModal/ImageModal";
 import toast, { Toaster } from "react-hot-toast";
-import { ImageType } from "./types";
 
-type Image = {
+export interface ImageType {
   id: string;
+  alt_description: string;
   urls: {
     small: string;
     regular: string;
+    full: string;
   };
-  alt_description: string;
-};
-
-
+}
 
 function App() {
   const [query, setQuery] = useState<string>("");
-  const [images, setImages] = useState<Image[]>([]);
+  const [images, setImages] = useState<ImageType[]>([]);
   const [loading, setLoading] = useState<boolean>(false);
   const [error, setError] = useState<string | null>(null);
   const [page, setPage] = useState<number>(1);
@@ -33,6 +31,7 @@ function App() {
     page: number = 1
   ): Promise<void> => {
     if (!query.trim()) return;
+
     setLoading(true);
     setError(null);
 
@@ -47,26 +46,27 @@ function App() {
       } else {
         setImages((prevImages) => [...prevImages, ...data.results]);
       }
-    } catch (err) {
-      setError("Error loading images");
+
+      toast.success("Images loaded successfully!");
+    } catch (err: unknown) {
+      const errorMessage =
+        err instanceof Error ? err.message : "Error loading images";
+      setError(errorMessage);
+      toast.error(errorMessage);
     } finally {
       setLoading(false);
     }
   };
 
   const handleLoadMore = () => {
-    setPage((prevPage) => {
-      const nextPage = prevPage + 1;
-      fetchImages(query, nextPage);
-      return nextPage;
-    });
+    const nextPage = page + 1;
+    setPage(nextPage);
+    fetchImages(query, nextPage);
   };
 
   const openModal = (image: ImageType) => {
-    if (!isModalOpen) {
-      setSelectedImage(image);
-      setIsModalOpen(true);
-    }
+    setSelectedImage(image);
+    setIsModalOpen(true);
   };
 
   const closeModal = () => {
@@ -94,3 +94,4 @@ function App() {
 }
 
 export default App;
+
